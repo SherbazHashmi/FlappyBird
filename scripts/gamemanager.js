@@ -1,8 +1,13 @@
+// HTML Links
+
 var cvs = document.getElementById("canvas")
 var cxt = cvs.getContext("2d")
-
 let score_text = document.getElementById("score")
 let debug_text = document.getElementById("debug")
+
+
+// Game Variables
+
 let gap = 100;
 let minDistance = 0
 let gravity = 1.5; 
@@ -11,28 +16,18 @@ var bx = 10
 var by = cvs.height / 2  - 100
 var pipeSpeed = 1
 var alive = true;
-
 var score = 0;
+var pipe = []
 
 // Setup Images
+
 var bird = initImage("bird.png")
 var bg = initImage("bg.png")
 var fg = initImage("fg.png")
 var pipeSky = initImage("pipeNorth.png")
 var pipeGround = initImage("pipeSouth.png")
 
-canvas.addEventListener("touchstart", function(e) {
- 	bx += 0
-	by -= jump
- e.preventDefault()
- }, false)
-
-var pipe = []
-
-pipe[0] = {
-	x : cvs.width,
-	y : 0
-};
+// Initialise Image Function
 
 function initImage(fileName) {
 	var image = new Image();
@@ -40,12 +35,27 @@ function initImage(fileName) {
 	return image
 };
 
+// OnTouch
+
+canvas.addEventListener("touchstart", function(e) {
+ 	bx += 0
+	by -= jump
+ e.preventDefault()
+ }, false);
+
+// Initialise first pipe.
+
+pipe[0] = {
+	x : cvs.width,
+	y : 0
+};
+
+// Draw Frame Method
+
 function draw() {
+	minDistance = pipeSky.height + gap
 	isCollision()	
 	dropDead()
-	// Update Min Distance (First Run It Resolves to 0)
-	
-	minDistance = pipeSky.height + gap
 	cxt.drawImage(bg,0,0);
 	
 	// Drawing Pipes
@@ -72,15 +82,14 @@ function draw() {
 	requestAnimationFrame(draw);
 } 
 
+// Apply Gravity
+
 function applyGravity(gravity) {
 	by = by + gravity
 }
 
 
-function setBird(x,y) {
-	bx = x;
-	by = y;
-}
+// Handles Collisions
 
 function isCollision() {
 
@@ -105,6 +114,8 @@ function isCollision() {
 	});
 }
 
+//  Handles GameOver Event
+
 function gameOver() {
 	alive = false;
 	gravity = 0;
@@ -113,15 +124,20 @@ function gameOver() {
 	
 }
 
+// Handles Drop Dead
+
 function dropDead() {
 	if(alive == false && by < 433.5) {
 		by = by + 10;
 	} 
 }
 
+// Keeps Score Updated
+
 function scoreKeeper() {
 		
 		pipe.forEach(function(pipe) {
+		
 		while(bx == (pipe.x + pipeGround.width / 2 + (bird.width / 2)))
 		{ 
 			score++;
@@ -131,14 +147,25 @@ function scoreKeeper() {
 	});
 }
 
+// Draws GameOver Window
+
+function gameOverWindow() {
+	
+}
+
+// Logs Error
+
 function log(input) {
 	debug_text.textContent = input
 }
+
+// Sets Score
+
 function setScore() {
 	score_text.textContent= score + " Points";		
 }
 
-
+// Actual Code Run
 
 draw();
 
