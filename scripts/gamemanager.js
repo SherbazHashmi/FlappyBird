@@ -3,15 +3,14 @@ var context = canvas.getContext("2d")
 
 // Setup Images
 	var bird = this.initImage("bird.png")
-	var bg = new Image()
-	bg.src = "images/bg.png"
+	var bg = initImage("bg.png")
 	var fg = this.initImage("fg.png")
 	var pipeSky = this.initImage("pipeNorth.png")
 	var pipeGround = this.initImage("pipeSouth.png")
 
 	function initImage(fileName) {
 		var image = new Image();
-		image.src = "images" + fileName
+		image.src = "images/" + fileName
 		return image
 	};
 	
@@ -24,7 +23,6 @@ var context = canvas.getContext("2d")
 		alert(bg.src)
 	}
 	
-	alert(bg.src)
 	
 	draw();
 
